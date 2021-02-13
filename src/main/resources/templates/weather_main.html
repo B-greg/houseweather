@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:insert="fragments/common.html :: headerfiles"></header>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card fluid">
+                <h2
+                        th:text="'Date: ' + ${#calendars.format(weather.createdDate, 'dd MMM yyyy HH:mm')}"
+                />
+                <p th:text="'Temperature: ' + ${weather.temperature}"/>
+                <p th:text="'Humidity: ' + ${weather.humidity}"/>
+                <p th:text="'Pm 2.5: ' + ${weather.pm25}"/>
+                <p th:text="'Pm 10: ' + ${weather.pm10}"/>
+            </div>
+        </div>
+    </div>
+    <form th:action="@{/weather}" method="get" class="table-pagination-container">
+        <select class="doc" th:name="size">
+            <option th:each="pageSize : ${pageSize}" th:text="${pageSize}" th:value="${pageSize}"
+                    th:selected="${pageSize} == ${pageableWeather.getPageable().getPageSize()}"></option>
+        </select>
+        <input style="display: none" th:name="page" th:value="${pageableWeather.getPageable().getPageNumber()}">
+        <input
+                class="doc"
+                type="submit"
+                value="Submit"
+        />
+
+    </form>
+    <table id="weatherLast10" class="striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Temperature</th>
+            <th>Humidity</th>
+            <th>Pm 2.5</th>
+            <th>Pm 10</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="w : ${pageableWeather.toList()}">
+            <td data-label="#" th:text="${w.id}"></td>
+            <td
+                    data-label="Date"
+                    th:text="${#calendars.format(w.createdDate, 'dd MMM yyyy HH:mm')}"
+            ></td>
+            <td data-label="Temperature" th:text="${w.temperature}"></td>
+            <td data-label="Humidity" th:text="${w.humidity}"></td>
+            <td data-label="Pm 2.5" th:text="${w.pm25}"></td>
+            <td data-label="Pm 10" th:text="${w.pm10}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="table-pagination-container">
+        <a th:href="@{/weather(size=${pageableWeather.getSize()}, page=${pageableWeather.previousOrFirstPageable().getPageNumber()})}"
+           th:text="Previous"
+           th:if="${!pageableWeather.isFirst()}" class="button doc"
+           role="button"></a>
+        <a th:href="@{/weather(size=${pageableWeather.getSize()}, page=${pageableWeather.nextOrLastPageable().getPageNumber()})}"
+           th:text="Next"
+           th:if="${!pageableWeather.isLast()}" class="button doc"
+           role="button"></a>
+    </div>
+    <div>
+        <form name="updateChartFrom" action="#" onsubmit="return false;">
+            <label for="page">Page:</label>
+            <input type="number" id="page" name="page" min="0" value="0"/>
+
+            <label for="chatSize">Size:</label>
+            <input type="number" id="chatSize" name="size" min="0" value="10"/>
+
+            <input
+                    type="submit"
+                    value="Submit"
+                    onclick="updateChart()"
+            />
+        </form>
+    </div>
+    <div class="ct-chart ct-perfect-fourth"></div>
+</div>
+<!-- Site content goes here !-->
+<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+<script>
+      function updateChart() {
+        // Our labels and three data series
+        var page = document.getElementById("page").value;
+        var size = document.getElementById("chatSize").value;
+        fetch(
+          "http://192.168.1.4:8090/api/weather?page=" +
+            page +
+            "&size=" +
+            size
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((weaters) => {
+            var newData = {
+              labels: weaters.map((w) => {
+              return w.createdDate;
+            }),
+              series: [weaters.map((w) => {
+              return w.temperature;
+            })],
+            };
+            // All you need to do is pass your configuration as third parameter to the chart function
+            tempChart.update(newData);
+          });
+      }
+
+      var data = {
+        labels: [0],
+        series: [[0]],
+      };
+
+      // We are setting a few options for our chart and override the defaults
+      var options = {
+        // Don't draw the line chart points
+        showPoint: true,
+        // Disable line smoothing
+        lineSmooth: false,
+        // X-Axis specific configuration
+        axisX: {
+          // We can disable the grid for this axis
+          showGrid: false,
+          scaleMinSpace: 200,
+          onlyInteger: false,
+          // and also don't show the label
+          labelInterpolationFnc: function (value) {
+            const d = new Date(value)
+            return d.getHours() + ":" + d.getMinutes();
+          },
+        },
+        // Y-Axis specific configuration
+        axisY: {
+          // Lets offset the chart a bit from the labels
+          offset: 60,
+          // The label interpolation function enables you to modify the values
+          // used for the labels on each axis. Here we are converting the
+          // values into million pound.
+          labelInterpolationFnc: function (value) {
+            return value + "C";
+          },
+        },
+      };
+
+      // All you need to do is pass your configuration as third parameter to the chart function
+      var tempChart = new Chartist.Line(".ct-chart", data, options);
+
+      updateChart();
+
+</script>
+</body>
+<style>
+    .container {
+      max-width: 900px;
+      margin: auto;
+      position: relative;
+    }
+    table:not(.horizontal) {
+      max-height: none;
+    }
+    .table-pagination-container{
+      display: flex;
+      justify-content: flex-end
+    }
+
+</style>
+</html>
