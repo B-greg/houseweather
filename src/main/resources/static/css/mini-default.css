@@ -119,8 +119,9 @@
 
 /* Core module CSS variable definitions */
 :root {
-  --fore-color: #2F3037;
-  --secondary-fore-color: #9FA2B4;
+  --fore-color: #9fa2b4;
+  --secondary-fore-color: #838bb8;
+  --primary-fore-color: #2f3037;
   --back-color: #f8f8f8;
   --secondary-back-color: #f0f0f0;
   --blockquote-color: #f57c00;
@@ -198,6 +199,7 @@ h3,
 h4,
 h5,
 h6 {
+  color: var(--primary-fore-color);
   line-height: 1.2;
   margin: calc(1.5 * var(--universal-margin)) var(--universal-margin);
   font-weight: 500;
@@ -385,6 +387,15 @@ a:hover,
 a:focus {
   text-decoration: underline;
 }
+
+.primary {
+  color: var(--primary-fore-color);
+}
+
+.body2 {
+  font-size: 1.5rem;
+}
+
 
 /*
   Definitions for the grid system, cards and containers.
@@ -1339,23 +1350,23 @@ button.large,
 :root {
   --header-back-color: #f8f8f8;
   --header-hover-back-color: #f0f0f0;
-  --header-fore-color: #2F3037;
+  --header-fore-color: #2f3037;
   --header-hover-fore-color: #1f1f24;
   --header-border-color: #ddd;
   --nav-back-color: #f8f8f8;
   --nav-hover-back-color: #f0f0f0;
-  --nav-fore-color: #2F3037;
+  --nav-fore-color: #2f3037;
   --nav-border-color: #ddd;
   --nav-link-color: #5aa4e9;
   --nav-link-hover-color: #31628f;
-  --footer-fore-color: #2F3037;
+  --footer-fore-color: #2f3037;
   --footer-back-color: #f8f8f8;
   --footer-border-color: #ddd;
   --footer-link-color: #0277bd;
   --drawer-back-color: #f8f8f8;
   --drawer-hover-back-color: #f0f0f0;
   --drawer-border-color: #ddd;
-  --drawer-close-color: #2F3037;
+  --drawer-close-color: #2f3037;
 }
 
 header {
@@ -1415,7 +1426,6 @@ header .button:focus,
 header [role="button"]:hover,
 header [role="button"]:focus {
   background: var(--header-hover-back-color);
-
 }
 
 header button:hover.activated,

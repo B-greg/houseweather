@@ -20,20 +20,20 @@
         href="/"
         class="button"
         th:classappend="${#httpServletRequest.requestURI == '/' ? 'activated' : '' }"
-        >Home</a
-      >
+        th:text="#{header.home}"
+        />
       <a
         href="/weather"
         class="button"
         th:classappend="${#httpServletRequest.requestURI == '/weather' ? 'activated' : '' }"
-        >History</a
-      >
+        th:text="#{header.history}"
+        />
       <a
         href="/graph"
         class="button"
         th:classappend="${#httpServletRequest.requestURI == '/graph' ? 'activated' : '' }"
-        >Graph</a
-      >
+        th:text="#{header.graph}"
+        />
     </header>
   </div>
 

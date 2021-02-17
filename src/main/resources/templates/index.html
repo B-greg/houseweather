@@ -1,46 +1,86 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/common.html :: headerfiles"></head>
-<body>
-<div th:insert="fragments/common.html :: headerbar"></div>
-<div class="container">
-    <div class="row">
+  <head th:insert="fragments/common.html :: headerfiles"></head>
+  <body>
+    <div th:insert="fragments/common.html :: headerbar"></div>
+    <div class="container">
+      <div class="row">
         <div class="col-sm-12">
-            <div class="card fluid" th:classappend="${weather.getAQI().getColor()}" th:if="${weather != null}">
-                <div class="section">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <h2 th:text="'AQI: ' + ${weather.getAQI().getAQI()}"/>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <h2 th:text="${weather.getAQI().getCategory()}"/>
-                        </div>
-                    </div>
-                    <h4 th:text="${#calendars.format(weather.createdDate, 'dd MMM yyyy HH:mm')}"/>
-                </div>
-                <div class="section">
-                    <p th:text="${weather.getAQI().getMeaning()}"/>
-                    <p th:text="${weather.getAQI().getSensitiveGroups()}"/>
-                    <p th:text="${weather.getAQI().getHealthEffectsStatements()}"/>
-                </div>
-                <div class="section">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6">
-                                <p th:text="'Temperature: ' + ${weather.temperature}"/>
-                                <p th:text="'Humidity: ' + ${weather.humidity}"/>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <p th:text="'Pm 2.5: ' + ${weather.pm25}"/>
-                                <p th:text="'Pm 10: ' + ${weather.pm10}"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          <h2 th:text="#{home.title}" />
         </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <h2 th:text="#{Image}" />
+        </div>
+        <div class="col-sm-12 col-md-8">
+          <div>
+            <p>
+              <span th:text="#{home.updated_on}" />
+              <span
+              class="primary"
+                th:text="${#calendars.format(weather.createdDate, 'dd MMM yyyy HH:mm')}"
+              />
+            </p>
+            <div>
+              <p>
+                <span class="body2" th:text="#{home.temperature} + ':'" />
+                <span
+                class="primary body2"
+                  th:text="${weather.temperature} + '°C'"
+                />
+              </p>
+              <p>
+                <span class="body2" th:text="#{home.humidity} + ':'" />
+                <span
+                class="primary body2"
+                  th:text="${weather.humidity} + '%'"
+                />
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="card fluid"
+            th:classappend="${weather.getAQI().getColor()}"
+            th:if="${weather != null}"
+          >
+            <div class="section">
+              <div class="row">
+                <div class="col-sm-12 col-md-6">
+                  <h2 th:text="'AQI: ' + ${weather.getAQI().getAQI()}" />
+                </div>
+                <div class="col-sm-12 col-md-6">
+                  <h2 th:text="${weather.getAQI().getCategory()}" />
+                </div>
+              </div>
+              <h4
+                th:text="${#calendars.format(weather.createdDate, 'dd MMM yyyy HH:mm')}"
+              />
+            </div>
+            <div class="section">
+              <p th:text="${weather.getAQI().getMeaning()}" />
+              <p th:text="${weather.getAQI().getSensitiveGroups()}" />
+              <p th:text="${weather.getAQI().getHealthEffectsStatements()}" />
+            </div>
+            <div class="section">
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm-12 col-md-6">
+                    <p th:text="'Temperature: ' + ${weather.temperature}" />
+                    <p th:text="'Humidity: ' + ${weather.humidity}" />
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <p th:text="'Pm 2.5: ' + ${weather.pm25}" />
+                    <p th:text="'Pm 10: ' + ${weather.pm10}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-<div th:replace="fragments/common.html :: includeJs"></div>
-</body>
+    <div th:replace="fragments/common.html :: includeJs"></div>
+  </body>
 </html>

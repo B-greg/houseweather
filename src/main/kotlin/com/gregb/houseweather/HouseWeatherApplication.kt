@@ -15,15 +15,6 @@ import org.thymeleaf.templateresolver.ITemplateResolver
 
 import org.thymeleaf.spring5.ISpringTemplateEngine
 
-
-
-
-
-
-
-
-
-
 @SpringBootApplication
 @ComponentScan("com.gregb.houseweather")
 class HouseWeatherApplication : SpringBootServletInitializer() {
