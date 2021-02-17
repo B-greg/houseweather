@@ -1,6 +1,9 @@
 package com.gregb.houseweather.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.thanglequoc.aqicalculator.AQICalculator
+import com.thanglequoc.aqicalculator.AQIResult
+import com.thanglequoc.aqicalculator.Pollutant
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.Generated
 import org.hibernate.annotations.GenerationTime
@@ -40,5 +43,10 @@ class Weather {
     @CreationTimestamp
     @Column(name = "CreatedDate", updatable=false)
     var createdDate: Date? = null
+
+    fun getAQI(): AQIResult {
+        val calculator: AQICalculator = AQICalculator.getAQICalculatorInstance()
+        return calculator.getAQI(Pollutant.PM25, this.pm25?.toDouble() ?: 0.0)
+    }
 }
 

@@ -1,0 +1,38 @@
+.container {
+  max-width: 900px;
+  margin: auto;
+  position: relative;
+}
+
+.card.Green {
+    --card-back-color:#6fe458;
+    --card-border-color:#e8b825
+}
+
+.card.Yellow {
+    --card-back-color:#ffca28;
+    --card-border-color:#e8b825
+}
+
+.card.Orange {
+    --card-back-color:#ff9028;
+    --card-border-color:#e8b825
+}
+
+.card.Red {
+  --card-back-color: #b71c1c;
+  --card-fore-color: #f8f8f8;
+  --card-border-color: #a71a1a;
+}
+
+.card.Purple {
+  --card-back-color: rgb(77, 8, 83);
+  --card-fore-color: #f8f8f8;
+  --card-border-color: rgb(44, 6, 48);
+}
+
+.card.Maroon {
+  --card-back-color: Maroon;
+  --card-fore-color: #f8f8f8;
+  --card-border-color: rgb(54, 0, 0);
+}

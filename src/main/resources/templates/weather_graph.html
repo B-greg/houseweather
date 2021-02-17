@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="fragments/common.html :: headerfiles"></head>
+  <body>
+    <div th:insert="fragments/common.html :: headerbar"></div>
+    <div class="container">
+      <div>
+        <form name="updateChartFrom" action="#" onsubmit="return false;">
+          <input type="datetime" id="date-from" name="date-from" />
+          <input type="datetime" id="date-to" name="date-to" />
+          <select name="type" id="type">
+            <option value="temperature">temperature</option>
+            <option value="humidity">humidity</option>
+            <option value="pm25">pm25</option>
+            <option value="pm10">pm10</option>
+            <option value="aqi">AQI</option>
+          </select>
+          <input type="submit" value="Submit" onclick="updateChart()" />
+        </form>
+      </div>
+      <div class="ct-chart ct-perfect-fourth"></div>
+    </div>
+    <!-- Site content goes here !-->
+    <div th:replace="fragments/common.html :: includeJs"></div>
+    <script src="js/dtsel.js"></script>
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <script src="js/chartist-plugin-pointlabels.js"></script>
+
+
+    <script>
+      const dateFromPicker = new dtsel.DTS('input[name="date-from"]', {
+        direction: "BOTTOM",
+        dateFormat: "yyyy-mm-dd",
+        showTime: true,
+        timeFormat: "HH:MM:SS",
+      });
+      const dateToPicker = new dtsel.DTS('input[name="date-to"]', {
+        direction: "TOP",
+        dateFormat: "yyyy-mm-dd",
+        showTime: true,
+        timeFormat: "HH:MM:SS",
+      });
+
+      var host = window.location.origin;
+      function updateChart() {
+        // Our labels and three data series
+        var startDate = document.getElementById("date-from").value;
+        var endDate = document.getElementById("date-to").value;
+        var selectedType = document.getElementById("type").value;
+        fetch(
+          host +
+            "/api/graph?startDate=" +
+            startDate.replace(/,/g, "") +
+            "&endDate=" +
+            endDate.replace(/,/g, "")
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((weaters) => {
+            var newData = {
+              labels: weaters.map((w) => {
+                return w.createdDate;
+              }),
+              series: [
+                weaters.map((w) => {
+                  if(selectedType === "aqi") {
+                    return w["aqi"]["aqi"];
+                  } else {
+                    return w[selectedType];
+                  }
+                  
+                }),
+              ],
+            };
+            // All you need to do is pass your configuration as third parameter to the chart function
+            tempChart.update(newData);
+          });
+      }
+
+      var data = {
+        labels: [0],
+        series: [[0]],
+      };
+
+      // We are setting a few options for our chart and override the defaults
+      var options = {
+        plugins: [
+          Chartist.plugins.ctPointLabels({
+            textAnchor: "middle",
+          }),
+        ],
+        // Don't draw the line chart points
+        showPoint: true,
+        // Disable line smoothing
+        lineSmooth: false,
+        // X-Axis specific configuration
+        axisX: {
+          // We can disable the grid for this axis
+          showGrid: false,
+          scaleMinSpace: 200,
+          onlyInteger: false,
+          // and also don't show the label
+          labelInterpolationFnc: function (value) {
+            const d = new Date(value);
+            return d.getHours() + ":" + d.getMinutes();
+          },
+        },
+        // Y-Axis specific configuration
+        axisY: {
+          // Lets offset the chart a bit from the labels
+          offset: 60,
+          // The label interpolation function enables you to modify the values
+          // used for the labels on each axis. Here we are converting the
+          // values into million pound.
+          labelInterpolationFnc: function (value) {
+            return value;
+          },
+        },
+      };
+
+      // All you need to do is pass your configuration as third parameter to the chart function
+      var tempChart = new Chartist.Line(".ct-chart", data, options);
+
+      updateChart();
+    </script>
+  </body>
+</html>

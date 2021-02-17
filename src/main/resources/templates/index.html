@@ -1,7 +1,46 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<header th:insert="fragments/common.html :: headerfiles"> </header>
+<head th:insert="fragments/common.html :: headerfiles"></head>
 <body>
-<p>Get List of temperature <a href="/weather">here</a></p>
+<div th:insert="fragments/common.html :: headerbar"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card fluid" th:classappend="${weather.getAQI().getColor()}" th:if="${weather != null}">
+                <div class="section">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <h2 th:text="'AQI: ' + ${weather.getAQI().getAQI()}"/>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <h2 th:text="${weather.getAQI().getCategory()}"/>
+                        </div>
+                    </div>
+                    <h4 th:text="${#calendars.format(weather.createdDate, 'dd MMM yyyy HH:mm')}"/>
+                </div>
+                <div class="section">
+                    <p th:text="${weather.getAQI().getMeaning()}"/>
+                    <p th:text="${weather.getAQI().getSensitiveGroups()}"/>
+                    <p th:text="${weather.getAQI().getHealthEffectsStatements()}"/>
+                </div>
+                <div class="section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <p th:text="'Temperature: ' + ${weather.temperature}"/>
+                                <p th:text="'Humidity: ' + ${weather.humidity}"/>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <p th:text="'Pm 2.5: ' + ${weather.pm25}"/>
+                                <p th:text="'Pm 10: ' + ${weather.pm10}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/common.html :: includeJs"></div>
 </body>
 </html>
