@@ -43,8 +43,8 @@ class WeatherRestController {
 
     @GetMapping("/graph")
     fun weatherGraph(
-        @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  startDate: Date,
-        @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") endDate: Date
+        @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")  startDate: Date,
+        @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") endDate: Date
     ): List<Weather> {
         return weatherService.findByDate(startDate, endDate)
     }

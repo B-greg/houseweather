@@ -137,47 +137,50 @@
       var chart = new ApexCharts(document.querySelector("#chart"), options);
       chart.render();
 
-      var host = window.location.origin;
-      fetch(
-        host +
-          "/api/graph?startDate=" +
-          new Date(new Date().getTime() - 24 * 60 * 60 * 1000).format(
-            "yyyy-mm-dd HH:MM:ss"
-          ) +
-          "&endDate=" +
-          new Date().format("yyyy-mm-dd HH:MM:ss")
-      )
-        .then((response) => {
-          return response.json();
-        })
-        .then((weaters) => {
-          chart.updateSeries([
-            {
-              name: "AQI",
-              data: weaters.map((w) => {
-                return w["aqi"]["aqi"];
-              }),
-            },
-          ]);
-          ApexCharts.exec(
-            "mychart",
-            "updateOptions",
-            {
-              xaxis: {
-                categories: weaters.map((w) => {
-                  return new Date(w["createdDate"]);
+      async function getData() {
+        var host = window.location.origin;
+        await fetch(
+          host +
+            "/api/graph?startDate=" +
+            new Date(new Date().getTime() - 24 * 60 * 60 * 1000).format(
+              "yyyy-mm-dd HH:MM"
+            ) +
+            "&endDate=" +
+            new Date().format("yyyy-mm-dd HH:MM")
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((weaters) => {
+            chart.updateSeries([
+              {
+                name: "AQI",
+                data: weaters.map((w) => {
+                  return w["aqi"]["aqi"];
                 }),
-                labels: {
-                  formatter: function (value) {
-                    return value?.format("dd-mmm HH:MM") ?? "";
+              },
+            ]);
+            ApexCharts.exec(
+              "mychart",
+              "updateOptions",
+              {
+                xaxis: {
+                  categories: weaters.map((w) => {
+                    return new Date(w["createdDate"]);
+                  }),
+                  labels: {
+                    formatter: function (value) {
+                      return value?.format("dd-mmm HH:MM") ?? "";
+                    },
                   },
                 },
               },
-            },
-            false,
-            true
-          );
-        });
+              false,
+              true
+            );
+          });
+      }
+      getData();
     </script>
   </body>
 </html>

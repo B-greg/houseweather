@@ -22,16 +22,15 @@
     </div>
     <!-- Site content goes here !-->
     <div th:replace="fragments/common.html :: includeJs"></div>
-    <script src="js/dtsel.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
       var options = {
-        series: [
-          {
-            name: "AQI",
-            data: [],
-          },
-        ],
+        series: [],
         chart: {
           id: "mychart",
           height: 700,
@@ -60,31 +59,32 @@
       var chart = new ApexCharts(document.querySelector("#chart"), options);
       chart.render();
 
-      const dateFromPicker = new dtsel.DTS('input[name="date-from"]', {
-        direction: "BOTTOM",
-        dateFormat: "yyyy-mm-dd",
-        showTime: true,
-        timeFormat: "HH:MM:SS",
-      });
-      const dateToPicker = new dtsel.DTS('input[name="date-to"]', {
-        direction: "TOP",
-        dateFormat: "yyyy-mm-dd",
-        showTime: true,
-        timeFormat: "HH:MM:SS",
-      });
+      const datePicketOption = {
+        enableTime: true,
+        time_24hr: true,
+        disable: [
+          function (date) {
+            // return true to disable
+            return date > new Date();
+          },
+        ],
+      };
+
+      const dateFromPicker = flatpickr(
+        'input[name="date-from"]',
+        datePicketOption
+      );
+
+      const dateToPicker = flatpickr('input[name="date-to"]', datePicketOption);
 
       var host = window.location.origin;
-      function updateChart() {
+      async function updateChart() {
         // Our labels and three data series
         var startDate = document.getElementById("date-from").value;
         var endDate = document.getElementById("date-to").value;
         var selectedType = document.getElementById("type").value;
-        fetch(
-          host +
-            "/api/graph?startDate=" +
-            startDate.replace(/,/g, "") +
-            "&endDate=" +
-            endDate.replace(/,/g, "")
+        await fetch(
+          host + "/api/graph?startDate=" + startDate + "&endDate=" + endDate
         )
           .then((response) => {
             return response.json();
@@ -92,7 +92,7 @@
           .then((weaters) => {
             chart.updateSeries([
               {
-                name: "AQI",
+                name: selectedType,
                 data: weaters.map((w) => {
                   if (selectedType === "aqi") {
                     return w["aqi"]["aqi"];
