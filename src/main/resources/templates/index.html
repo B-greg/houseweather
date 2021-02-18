@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="fragments/common.html :: headerfiles"></head>
+  <head th:insert="fragments/common.html :: headerfiles"> </head>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css"
+      integrity="sha512-C7hOmCgGzihKXzyPU/z4nv97W0d9bv4ALuuEbSf6hm93myico9qa0hv4dODThvCsqQUmKmLcJmlpRmCaApr83g=="
+      crossorigin="anonymous"
+    />
+  </head>
   <body>
     <div th:insert="fragments/common.html :: headerbar"></div>
     <div class="container">
@@ -10,77 +19,165 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-12 col-md-4">
-          <h2 th:text="#{Image}" />
+        <div class="col-sm-12 col-md-3">
+          <div
+            class="level-box"
+            th:classappend="${weather.getAQI().getColor()}"
+          >
+            <div class="rectangle1"></div>
+            <div class="rectangle2"></div>
+            <div class="rectangle3"></div>
+            <div class="level-box-content">
+              <p th:text="${weather.getAQI().getCategory()}" />
+              <p class="body2" th:text="${weather.getAQI().getAQI()}" />
+              <p th:text="#{home.usaqi}" />
+            </div>
+          </div>
         </div>
-        <div class="col-sm-12 col-md-8">
+        <div class="col-sm-12 col-md-9">
           <div>
             <p>
-              <span th:text="#{home.updated_on}" />
+              <span th:text="#{home.updated-on}" />
               <span
-              class="primary"
+                class="primary"
                 th:text="${#calendars.format(weather.createdDate, 'dd MMM yyyy HH:mm')}"
               />
             </p>
-            <div>
+            <div class="temperature-container">
               <p>
                 <span class="body2" th:text="#{home.temperature} + ':'" />
                 <span
-                class="primary body2"
+                  class="primary body2"
                   th:text="${weather.temperature} + '°C'"
                 />
               </p>
               <p>
                 <span class="body2" th:text="#{home.humidity} + ':'" />
                 <span
-                class="primary body2"
+                  class="primary body2"
                   th:text="${weather.humidity} + '%'"
                 />
               </p>
             </div>
           </div>
+          <div>
+            <h4 th:text="#{home.overview}" />
+            <p th:text="#{home.current-weather}" />
+          </div>
 
-          <div
-            class="card fluid"
-            th:classappend="${weather.getAQI().getColor()}"
-            th:if="${weather != null}"
-          >
-            <div class="section">
-              <div class="row">
-                <div class="col-sm-12 col-md-6">
-                  <h2 th:text="'AQI: ' + ${weather.getAQI().getAQI()}" />
-                </div>
-                <div class="col-sm-12 col-md-6">
-                  <h2 th:text="${weather.getAQI().getCategory()}" />
-                </div>
+          <div class="row">
+            <div class="pollutant-card">
+              <div
+                class="vertical-bar"
+                th:classappend="${weather.getAQI().getColor()}"
+              >
+                <p class="card-title" th:text="#{home.pm25}" />
+                <p class="card-content primary" th:text="${weather.pm25}" />
               </div>
-              <h4
-                th:text="${#calendars.format(weather.createdDate, 'dd MMM yyyy HH:mm')}"
-              />
             </div>
-            <div class="section">
-              <p th:text="${weather.getAQI().getMeaning()}" />
-              <p th:text="${weather.getAQI().getSensitiveGroups()}" />
-              <p th:text="${weather.getAQI().getHealthEffectsStatements()}" />
-            </div>
-            <div class="section">
-              <div class="container">
-                <div class="row">
-                  <div class="col-sm-12 col-md-6">
-                    <p th:text="'Temperature: ' + ${weather.temperature}" />
-                    <p th:text="'Humidity: ' + ${weather.humidity}" />
-                  </div>
-                  <div class="col-sm-12 col-md-6">
-                    <p th:text="'Pm 2.5: ' + ${weather.pm25}" />
-                    <p th:text="'Pm 10: ' + ${weather.pm10}" />
-                  </div>
-                </div>
+            <div class="pollutant-card">
+              <div
+                class="vertical-bar"
+                th:classappend="${weather.getAQI10().getColor()}"
+              >
+                <p class="card-title" th:text="#{home.pm10}" />
+                <p class="card-content primary" th:text="${weather.pm10}" />
               </div>
             </div>
           </div>
+
+          <div class="pollutant-description">
+            <p th:text="${weather.getAQI().getMeaning()}" />
+            <p th:text="${weather.getAQI().getSensitiveGroups()}" />
+          </div>
+          <div class="historical">
+            <h4 th:text="#{home.historical}" />
+            <p th:text="#{home.last-24h}" />
+          </div>
+
+          <div id="chart"></div>
         </div>
       </div>
     </div>
     <div th:replace="fragments/common.html :: includeJs"></div>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+      var options = {
+        series: [
+          {
+            name: "AQI",
+            data: [],
+          },
+        ],
+        chart: {
+          id: "mychart",
+          height: 700,
+          type: "line",
+          zoom: {
+            enabled: false,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: "straight",
+        },
+        grid: {
+          row: {
+            colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+            opacity: 0.5,
+          },
+        },
+        xaxis: {
+          categories: [],
+        },
+      };
+
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+      chart.render();
+
+      var host = window.location.origin;
+      fetch(
+        host +
+          "/api/graph?startDate=" +
+          new Date(new Date().getTime() - 24 * 60 * 60 * 1000).format(
+            "yyyy-mm-dd HH:MM:ss"
+          ) +
+          "&endDate=" +
+          new Date().format("yyyy-mm-dd HH:MM:ss")
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((weaters) => {
+          chart.updateSeries([
+            {
+              name: "AQI",
+              data: weaters.map((w) => {
+                return w["aqi"]["aqi"];
+              }),
+            },
+          ]);
+          ApexCharts.exec(
+            "mychart",
+            "updateOptions",
+            {
+              xaxis: {
+                categories: weaters.map((w) => {
+                  return new Date(w["createdDate"]);
+                }),
+                labels: {
+                  formatter: function (value) {
+                    return value?.format("dd-mmm HH:MM") ?? "";
+                  },
+                },
+              },
+            },
+            false,
+            true
+          );
+        });
+    </script>
   </body>
 </html>

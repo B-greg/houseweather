@@ -1,0 +1,129 @@
+.temperature-container {
+  display: flex;
+}
+.temperature-container p ~ p {
+  margin-left: 32px;
+}
+
+.vertical-bar {
+  padding-left: 24px;
+}
+
+.pollutant-card {
+  padding: 8px;
+  max-width: 120px;
+}
+
+.pollutant-card .card-content {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.pollutant-card ~ .pollutant-card {
+  margin-left: 80px;
+}
+
+.pollutant-description {
+  margin-top: 20px;
+}
+
+.pollutant-description p {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.historical {
+  margin-top: 44px;
+}
+
+.vertical-bar {
+  border-left: 6px solid var(--warning-color);
+}
+
+.level-box {
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+  width: 200px;
+  margin: 8px;
+  border-radius: 25px;
+  background-color: var(--warning-color);
+}
+
+.level-box-content {
+  padding: 16px 8px;
+}
+
+.level-box-content p {
+  color: #fff;
+}
+
+.level-box-content p.body2 {
+  font-family: "Mulish Black";
+  font-size: 2rem;
+}
+
+.Green {
+  --warning-color: #6fe458;
+}
+
+.Yellow {
+  --warning-color: #ffca28;
+}
+
+.Orange {
+  --warning-color: #ff9028;
+}
+
+.Red {
+  --warning-color: #b71c1c;
+}
+
+.Purple {
+  --warning-color: rgb(77, 8, 83);
+}
+
+.Maroon {
+  --warning-color: Maroon;
+}
+
+.rectangle1 {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  left: 40px;
+  top: -20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-sizing: border-box;
+  border-radius: 50px;
+  transform: rotate(90deg);
+}
+
+.rectangle2 {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  left: 126px;
+  top: -10px;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.3)
+  );
+  border-radius: 50px;
+}
+
+.rectangle3 {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  left: 80px;
+  top: 120px;
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.4)
+  );
+  border-radius: 50px;
+  transform: rotate(90deg);
+}

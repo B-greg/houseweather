@@ -45,8 +45,17 @@ class Weather {
     var createdDate: Date? = null
 
     fun getAQI(): AQIResult {
+        return getAQI25()
+    }
+
+    fun getAQI25(): AQIResult {
         val calculator: AQICalculator = AQICalculator.getAQICalculatorInstance()
         return calculator.getAQI(Pollutant.PM25, this.pm25?.toDouble() ?: 0.0)
+    }
+
+    fun getAQI10(): AQIResult {
+        val calculator: AQICalculator = AQICalculator.getAQICalculatorInstance()
+        return calculator.getAQI(Pollutant.PM10, this.pm10?.toDouble() ?: 0.0)
     }
 }
 
