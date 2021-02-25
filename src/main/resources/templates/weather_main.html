@@ -1,25 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/common.html :: headerfiles"></head>
-<body>
-<div th:insert="fragments/common.html :: headerbar"></div>
-<div class="container">
-    <form th:action="@{/weather}" method="get" class="table-pagination-container">
+  <head th:insert="fragments/common.html :: headerfiles"></head>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/weather_main.css" />
+  </head>
+  <body>
+    <div th:insert="fragments/common.html :: headerbar"></div>
+    <div class="container">
+      <form
+        th:action="@{/weather}"
+        method="get"
+        class="table-pagination-container"
+      >
         <select class="doc" th:name="size">
-            <option th:each="pageSize : ${pageSize}" th:text="${pageSize}" th:value="${pageSize}"
-                    th:selected="${pageSize} == ${pageableWeather.getPageable().getPageSize()}"></option>
+          <option
+            th:each="pageSize : ${pageSize}"
+            th:text="${pageSize}"
+            th:value="${pageSize}"
+            th:selected="${pageSize} == ${pageableWeather.getPageable().getPageSize()}"
+          ></option>
         </select>
-        <input style="display: none" th:name="page" th:value="${pageableWeather.getPageable().getPageNumber()}">
         <input
-                class="doc"
-                type="submit"
-                value="Submit"
+          style="display: none"
+          th:name="page"
+          th:value="${pageableWeather.getPageable().getPageNumber()}"
         />
-
-    </form>
-    <table id="weatherLast10" class="striped">
+        <input class="doc primary" type="submit" value="Submit" />
+      </form>
+      <table id="weatherLast10">
         <thead>
-        <tr>
+          <tr>
             <th>#</th>
             <th>Date</th>
             <th>Temperature</th>
@@ -27,44 +37,47 @@
             <th>Pm 2.5</th>
             <th>Pm 10</th>
             <th>AQI</th>
-        </tr>
+          </tr>
         </thead>
         <tbody>
-        <tr th:each="w : ${pageableWeather.toList()}">
+          <tr th:each="w : ${pageableWeather.toList()}">
             <td data-label="#" th:text="${w.id}"></td>
             <td
-                    data-label="Date"
-                    th:text="${#calendars.format(w.createdDate, 'dd MMM yyyy HH:mm')}"
+              data-label="Date"
+              th:text="${#calendars.format(w.createdDate, 'dd MMM yyyy HH:mm')}"
             ></td>
             <td data-label="Temperature" th:text="${w.temperature}"></td>
             <td data-label="Humidity" th:text="${w.humidity}"></td>
             <td data-label="Pm 2.5" th:text="${w.pm25}"></td>
             <td data-label="Pm 10" th:text="${w.pm10}"></td>
             <td data-label="AQI" th:text="${w.getAQI().getAQI()}"></td>
-        </tr>
+          </tr>
         </tbody>
-    </table>
-    <div class="table-pagination-container">
-        <a th:href="@{/weather(size=${pageableWeather.getSize()}, page=${pageableWeather.previousOrFirstPageable().getPageNumber()})}"
-           th:text="Previous"
-           th:if="${!pageableWeather.isFirst()}" class="button doc"
-           role="button"></a>
-        <a th:href="@{/weather(size=${pageableWeather.getSize()}, page=${pageableWeather.nextOrLastPageable().getPageNumber()})}"
-           th:text="Next"
-           th:if="${!pageableWeather.isLast()}" class="button doc"
-           role="button"></a>
+      </table>
+      <div class="table-pagination-container">
+          <p th:text="${pageableWeather.getNumber() + 1} + ' of ' + ${pageableWeather.getTotalPages()}"></p>
+        <a
+          th:href="@{/weather(size=${pageableWeather.getSize()}, page=0)}"
+          th:if="${!pageableWeather.isFirst()}"
+          ><span class="icon-chevrons-left"></span
+        ></a>
+        <a
+          th:href="@{/weather(size=${pageableWeather.getSize()}, page=${pageableWeather.previousOrFirstPageable().getPageNumber()})}"
+          th:if="${!pageableWeather.isFirst()}"
+          ><span class="icon-chevron-left"></span
+        ></a>
+        <a
+          th:href="@{/weather(size=${pageableWeather.getSize()}, page=${pageableWeather.nextOrLastPageable().getPageNumber()})}"
+          th:if="${!pageableWeather.isLast()}"
+          ><span class="icon-chevron-right"></span
+        ></a>
+        <a
+          th:href="@{/weather(size=${pageableWeather.getSize()}, page=${pageableWeather.getTotalPages() - 1})}"
+          th:if="${!pageableWeather.isLast()}"
+          ><span class="icon-chevrons-right"></span
+        ></a>
+      </div>
     </div>
-</div>
-<div th:replace="fragments/common.html :: includeJs"></div>
-</body>
-<style>
-    table:not(.horizontal) {
-      max-height: none;
-    }
-    .table-pagination-container{
-      display: flex;
-      justify-content: flex-end
-    }
-
-</style>
+    <div th:replace="fragments/common.html :: includeJs"></div>
+  </body>
 </html>

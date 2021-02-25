@@ -1,0 +1,11 @@
+table:not(.horizontal) {
+  max-height: none;
+}
+.table-pagination-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.table-pagination-container a {
+  padding: 8px;
+}

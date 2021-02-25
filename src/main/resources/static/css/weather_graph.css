@@ -1,0 +1,12 @@
+#updateChartFrom {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 0px;
+  padding-right: 0px;
+}
+
+#updateChartFrom .button {
+  margin-right: 0px;
+}
+

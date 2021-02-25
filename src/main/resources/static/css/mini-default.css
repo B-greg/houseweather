@@ -122,7 +122,7 @@
   --fore-color: #9fa2b4;
   --secondary-fore-color: #838bb8;
   --primary-fore-color: #2f3037;
-  --back-color: #f8f8f8;
+  --back-color: #fafafa;
   --secondary-back-color: #f0f0f0;
   --blockquote-color: #f57c00;
   --pre-color: #1565c0;
@@ -131,7 +131,7 @@
   --heading-ratio: 1.19;
   --universal-margin: 0.5rem;
   --universal-padding: 0.5rem;
-  --universal-border-radius: 0.125rem;
+  --universal-border-radius: 8px;
   --a-link-color: #0277bd;
   --a-visited-color: #01579b;
 }
@@ -395,7 +395,6 @@ a:focus {
 .body2 {
   font-size: 1.5rem;
 }
-
 
 /*
   Definitions for the grid system, cards and containers.
@@ -806,7 +805,7 @@ a:focus {
 
 /* Card component CSS variable definitions */
 :root {
-  --card-back-color: #f8f8f8;
+  --card-back-color: #fafafa;
   --card-fore-color: #111;
   --card-border-color: #ddd;
 }
@@ -882,7 +881,7 @@ a:focus {
 
 .card.error {
   --card-back-color: #b71c1c;
-  --card-fore-color: #f8f8f8;
+  --card-fore-color: #fafafa;
   --card-border-color: #a71a1a;
 }
 
@@ -902,7 +901,7 @@ a:focus {
   --form-back-color: #f0f0f0;
   --form-fore-color: #111;
   --form-border-color: #ddd;
-  --input-back-color: #f8f8f8;
+  --input-back-color: #fafafa;
   --input-fore-color: #111;
   --input-border-color: #ddd;
   --input-focus-color: #0288d1;
@@ -916,10 +915,10 @@ a:focus {
 }
 
 form {
-  background: var(--form-back-color);
+  /* background: var(--form-back-color); */
   color: var(--form-fore-color);
-  border: 0.0625rem solid var(--form-border-color);
-  border-radius: var(--universal-border-radius);
+  /* border: 0.0625rem solid var(--form-border-color);
+  border-radius: var(--universal-border-radius); */
   margin: var(--universal-margin);
   padding: calc(2 * var(--universal-padding)) var(--universal-padding);
 }
@@ -1007,12 +1006,20 @@ input:not([type]),
 textarea,
 select {
   box-sizing: border-box;
-  background: var(--input-back-color);
+  /* background: var(--input-back-color); */
   color: var(--input-fore-color);
   border: 0.0625rem solid var(--input-border-color);
   border-radius: var(--universal-border-radius);
   margin: calc(var(--universal-margin) / 2);
   padding: var(--universal-padding) calc(1.5 * var(--universal-padding));
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 100%;
+  background-position-y: 50%;
+  padding-right: 2rem;
 }
 
 input:not([type="button"]):not([type="submit"]):not([type="reset"]):hover,
@@ -1227,8 +1234,8 @@ button.primary,
 [type="reset"].primary,
 .button.primary,
 [role="button"].primary {
-  --button-back-color: #1976d2;
-  --button-fore-color: #f8f8f8;
+  --button-back-color: #5aa4e9;
+  --button-fore-color: #fafafa;
 }
 
 button.primary:hover,
@@ -1243,7 +1250,7 @@ button.primary:focus,
 .button.primary:focus,
 [role="button"].primary:hover,
 [role="button"].primary:focus {
-  --button-hover-back-color: #1565c0;
+  --button-hover-back-color: #73b0e9;
 }
 
 button.secondary,
@@ -1253,7 +1260,7 @@ button.secondary,
 .button.secondary,
 [role="button"].secondary {
   --button-back-color: #d32f2f;
-  --button-fore-color: #f8f8f8;
+  --button-fore-color: #fafafa;
 }
 
 button.secondary:hover,
@@ -1278,7 +1285,7 @@ button.tertiary,
 .button.tertiary,
 [role="button"].tertiary {
   --button-back-color: #308732;
-  --button-fore-color: #f8f8f8;
+  --button-fore-color: #fafafa;
 }
 
 button.tertiary:hover,
@@ -1303,7 +1310,7 @@ button.inverse,
 .button.inverse,
 [role="button"].inverse {
   --button-back-color: #212121;
-  --button-fore-color: #f8f8f8;
+  --button-fore-color: #fafafa;
 }
 
 button.inverse:hover,
@@ -1348,22 +1355,22 @@ button.large,
 */
 /* Navigation module CSS variable definitions */
 :root {
-  --header-back-color: #f8f8f8;
+  --header-back-color: #fafafa;
   --header-hover-back-color: #f0f0f0;
   --header-fore-color: #2f3037;
   --header-hover-fore-color: #1f1f24;
   --header-border-color: #ddd;
-  --nav-back-color: #f8f8f8;
+  --nav-back-color: #fafafa;
   --nav-hover-back-color: #f0f0f0;
   --nav-fore-color: #2f3037;
   --nav-border-color: #ddd;
   --nav-link-color: #5aa4e9;
   --nav-link-hover-color: #31628f;
   --footer-fore-color: #2f3037;
-  --footer-back-color: #f8f8f8;
+  --footer-back-color: #fafafa;
   --footer-border-color: #ddd;
   --footer-link-color: #0277bd;
-  --drawer-back-color: #f8f8f8;
+  --drawer-back-color: #fafafa;
   --drawer-hover-back-color: #f0f0f0;
   --drawer-border-color: #ddd;
   --drawer-close-color: #2f3037;
@@ -1623,11 +1630,11 @@ footer.sticky {
 */
 /* Table module CSS variable definitions. */
 :root {
-  --table-border-color: #aaa;
-  --table-border-separator-color: #666;
+  --table-border-color: #e3e5e6;
+  --table-border-separator-color: #e3e5e6;
   --table-head-back-color: #e6e6e6;
   --table-head-fore-color: #111;
-  --table-body-back-color: #f8f8f8;
+  --table-body-back-color: #fafafa;
   --table-body-fore-color: #111;
   --table-body-alt-back-color: #eee;
 }
@@ -1654,7 +1661,6 @@ table thead,
 table tbody {
   display: flex;
   flex-flow: row wrap;
-  border: 0.0625rem solid var(--table-border-color);
 }
 
 table thead {
@@ -1683,7 +1689,6 @@ table td {
 
 table th {
   text-align: left;
-  background: var(--table-head-back-color);
   color: var(--table-head-fore-color);
 }
 
@@ -2421,6 +2426,25 @@ span.icon-upload {
 span.icon-user {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E");
 }
+
+span.icon-chevron-right {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevron-right'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+span.icon-chevron-left {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevron-left'%3E%3Cpolyline points='15 18 9 12 15 6'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+span.icon-chevrons-right {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevrons-right'%3E%3Cpolyline points='13 17 18 12 13 7'%3E%3C/polyline%3E%3Cpolyline points='6 17 11 12 6 7'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+
+span.icon-chevrons-left{
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevrons-left'%3E%3Cpolyline points='11 17 6 12 11 7'%3E%3C/polyline%3E%3Cpolyline points='18 17 13 12 18 7'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+
 
 /*
   Definitions for utilities and helper classes.
