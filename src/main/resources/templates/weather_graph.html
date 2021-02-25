@@ -18,7 +18,8 @@
             <option value="pm10">pm10</option>
             <option value="aqi">AQI</option>
           </select>
-          <input class="button" type="submit" value="Submit" onclick="updateChart()" />
+          <input id="button-submit" class="button primary" type="submit" value="Submit" onclick="updateChart()" />
+          <div id="loader-submit" class="spinner primary display-none"></div>
         </form>
       </div>
       <div id="chart"></div>
@@ -86,6 +87,10 @@
         var startDate = document.getElementById("date-from").value;
         var endDate = document.getElementById("date-to").value;
         var selectedType = document.getElementById("type").value;
+        var submitButton = document.getElementById("button-submit");
+        var submitLoader = document.getElementById("loader-submit");
+        submitButton.classList.add("display-none");
+        submitLoader.classList.remove("display-none");
         await fetch(
           host + "/api/graph?startDate=" + startDate + "&endDate=" + endDate
         )
@@ -123,6 +128,9 @@
               false,
               true
             );
+          }).finally(() => {
+            submitButton.classList.remove("display-none");
+            submitLoader.classList.add("display-none");
           });
       }
     </script>
