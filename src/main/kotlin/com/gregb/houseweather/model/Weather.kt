@@ -4,25 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.thanglequoc.aqicalculator.AQICalculator
 import com.thanglequoc.aqicalculator.AQIResult
 import com.thanglequoc.aqicalculator.Pollutant
+import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.Generated
-import org.hibernate.annotations.GenerationTime
-import org.springframework.format.annotation.DateTimeFormat
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
-import javax.persistence.*
-import java.time.ZoneId
-
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.TimeZone
-
-
-
-
-
-
 
 @Entity
 @Table(name = "weather")

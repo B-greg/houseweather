@@ -7,13 +7,12 @@ import org.springframework.boot.runApplication
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
-import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect
-import org.thymeleaf.spring5.view.ThymeleafViewResolver
-import org.thymeleaf.spring5.SpringTemplateEngine
+import org.thymeleaf.spring6.view.ThymeleafViewResolver
+import org.thymeleaf.spring6.SpringTemplateEngine
 
 import org.thymeleaf.templateresolver.ITemplateResolver
 
-import org.thymeleaf.spring5.ISpringTemplateEngine
+import org.thymeleaf.spring6.ISpringTemplateEngine
 
 @SpringBootApplication
 @ComponentScan("com.gregb.houseweather")
@@ -24,7 +23,6 @@ class HouseWeatherApplication : SpringBootServletInitializer() {
 
 	private fun templateEngine(templateResolver: ITemplateResolver): ISpringTemplateEngine? {
 		val engine = SpringTemplateEngine()
-		engine.addDialect(Java8TimeDialect())
 		engine.setTemplateResolver(templateResolver)
 		return engine
 	}
