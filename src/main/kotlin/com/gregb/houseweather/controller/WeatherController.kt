@@ -5,6 +5,7 @@ import com.gregb.houseweather.restModel.WeatherBody
 import com.gregb.houseweather.service.WeatherService
 import com.thanglequoc.aqicalculator.AQICalculator
 import com.thanglequoc.aqicalculator.Pollutant
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.web.PageableDefault
@@ -21,9 +22,10 @@ class WeatherController {
     private lateinit var weatherService: WeatherService
 
     @GetMapping(path = ["/index", "/"])
-    fun weatherMain( model: Model): String {
+    fun weatherMain( model: Model,  request: HttpServletRequest): String {
         val weather: Weather? = weatherService.findLast()
         model.addAttribute("weather", weather )
+        model.addAttribute("requestURI", request.requestURI);
         return "index";
     }
 

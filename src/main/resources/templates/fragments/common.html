@@ -17,19 +17,19 @@
       <a
         href="/"
         class="button"
-        th:classappend="${#httpServletRequest.requestURI == '/' ? 'activated' : '' }"
+        th:classappend="${requestURI == '/' ? 'activated' : '' }"
         th:text="#{header.home}"
         />
       <a
         href="/weather"
         class="button"
-        th:classappend="${#httpServletRequest.requestURI == '/weather' ? 'activated' : '' }"
+        th:classappend="${requestURI == '/weather' ? 'activated' : '' }"
         th:text="#{header.history}"
         />
       <a
         href="/graph"
         class="button"
-        th:classappend="${#httpServletRequest.requestURI == '/graph' ? 'activated' : '' }"
+        th:classappend="${requestURI == '/graph' ? 'activated' : '' }"
         th:text="#{header.graph}"
         />
     </header>
