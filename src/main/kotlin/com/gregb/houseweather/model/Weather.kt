@@ -12,8 +12,9 @@ import java.util.*
 @Table(name = "weather")
 class Weather {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "weather_generator")
+    @SequenceGenerator(name="weather_generator", sequenceName = "weather_id_seq", allocationSize=50)
     val id: Long = 0
 
     var temperature: Float? = null
