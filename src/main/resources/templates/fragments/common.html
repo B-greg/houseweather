@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head th:fragment="headerfiles">
+<head th:fragment="headerfiles">
     <title>Greg Weather station</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link
-      rel="stylesheet"
-      href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"
+            rel="stylesheet"
+            href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"
     />
-    <link rel="stylesheet" type="text/css" href="css/mini-default.css" />
-    <link rel="stylesheet" type="text/css" href="css/common.css" />
-  </head>
-  <div th:fragment="headerbar">
+    <link rel="stylesheet" type="text/css" href="css/mini-default.css"/>
+    <link rel="stylesheet" type="text/css" href="css/common.css"/>
+</head>
+<div th:fragment="headerbar">
     <header class="sticky">
-      <a href="/" class="logo">Weather</a>
-      <a
-        href="/"
-        class="button"
-        th:classappend="${requestURI == '/' ? 'activated' : '' }"
-        th:text="#{header.home}"
-        />
-      <a
-        href="/weather"
-        class="button"
-        th:classappend="${requestURI == '/weather' ? 'activated' : '' }"
-        th:text="#{header.history}"
-        />
-      <a
-        href="/graph"
-        class="button"
-        th:classappend="${requestURI == '/graph' ? 'activated' : '' }"
-        th:text="#{header.graph}"
-        />
+        <a href="/" class="logo">Weather</a>
+        <a class="button"
+           href="/"
+           th:classappend="${requestURI == '/' ? 'activated' : '' }"
+           th:text="#{header.home}"
+        ></a>
+        <a href="/weather"
+           class="button"
+           th:classappend="${requestURI == '/weather' ? 'activated' : '' }"
+           th:text="#{header.history}"
+        ></a>
+        <a href="/graph"
+           class="button"
+           th:classappend="${requestURI == '/graph' ? 'activated' : '' }"
+           th:text="#{header.graph}"
+        ></a>
+        <a href="/soil"
+           class="button"
+           th:classappend="${requestURI == '/soil' ? 'activated' : '' }"
+           th:text="#{header.soil}"
+        ></a>
     </header>
-  </div>
+</div>
 
-  <div th:fragment="includeJs">
+<div th:fragment="includeJs">
     <script src="js/cnvyr.min.js"></script>
-  </div>
+</div>
 
-  <footer th:fragment="footerfiles"></footer>
+<footer th:fragment="footerfiles"></footer>
 </html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/common.html :: headerfiles"></head>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/weather_main.css"/>
+</head>
+<body>
+<div th:insert="fragments/common.html :: headerbar"></div>
+<div class="container">
+    <div class="row" th:if="${lastMoisture != null }">
+        <div class="col-sm-12 col-md-3">
+            <div>
+                <p>
+                    <span th:text="#{soil.updated-on}"/>
+                    <span class="primary"
+                          th:text="${#calendars.format(lastMoisture.createdDate, 'dd MMM yyyy HH:mm')}"
+                    />
+                </p>
+                <div class="temperature-container">
+                    <p>
+                        <span class="body2" th:text="#{soil.temperature} + ':'"/>
+                        <span class="primary body2"
+                              th:text="${lastMoisture.temperature} + '°C'"
+                        />
+                    </p>
+                    <p>
+                        <span class="body2" th:text="#{soil.humidity} + ':'"/>
+                        <span class="primary body2"
+                              th:text="${lastMoisture.humidity} + '%'"
+                        />
+                    </p>
+                    <p>
+                        <span class="body2" th:text="#{soil.moisture} + ':'"/>
+                        <span class="primary body2"
+                              th:text="${lastMoisture.moisture}"
+                        />
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form th:action="@{/soil}"
+          method="get"
+          class="table-pagination-container"
+    >
+        <select class="doc" th:name="size">
+            <option th:each="pageSize : ${pageSize}"
+                    th:text="${pageSize}"
+                    th:value="${pageSize}"
+                    th:selected="${pageSize} == ${pageableMoisture.getPageable().getPageSize()}"
+            ></option>
+        </select>
+        <input style="display: none"
+               th:name="page"
+               th:value="${pageableMoisture.getPageable().getPageNumber()}"
+        />
+        <input class="primary" type="submit" value="Submit"/>
+    </form>
+    <table id="SoilLast10">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Temperature</th>
+            <th>Humidity</th>
+            <th>Moisture</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="moisture : ${pageableMoisture.toList()}">
+            <td data-label="#" th:text="${moisture.id}"></td>
+            <td data-label="Date"
+                th:text="${#calendars.format(moisture.createdDate, 'dd MMM yyyy HH:mm')}"
+            ></td>
+            <td data-label="Temperature" th:text="${moisture.temperature}"></td>
+            <td data-label="Humidity" th:text="${moisture.humidity}"></td>
+            <td data-label="Moisture" th:text="${moisture.moisture}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="table-pagination-container">
+        <p th:text="${pageableMoisture.getNumber() + 1} + ' of ' + ${pageableMoisture.getTotalPages()}"></p>
+        <a th:href="@{/soil(size=${pageableMoisture.getSize()}, page=0)}"
+           th:if="${!pageableMoisture.isFirst()}"
+        ><span class="icon-chevrons-left"></span
+        ></a>
+        <a th:href="@{/soil(size=${pageableMoisture.getSize()}, page=${pageableMoisture.previousOrFirstPageable().getPageNumber()})}"
+           th:if="${!pageableMoisture.isFirst()}"
+        ><span class="icon-chevron-left"></span
+        ></a>
+        <a th:href="@{/soil(size=${pageableMoisture.getSize()}, page=${pageableMoisture.nextOrLastPageable().getPageNumber()})}"
+           th:if="${!pageableMoisture.isLast()}"
+        ><span class="icon-chevron-right"></span
+        ></a>
+        <a th:href="@{/soil(size=${pageableMoisture.getSize()}, page=${pageableMoisture.getTotalPages() - 1})}"
+           th:if="${!pageableMoisture.isLast()}"
+        ><span class="icon-chevrons-right"></span
+        ></a>
+    </div>
+</div>
+<div th:replace="fragments/common.html :: includeJs"></div>
+</body>
+</html>
