@@ -21,7 +21,7 @@ class WeatherController {
     fun weatherMain( model: Model,  request: HttpServletRequest): String {
         val weather: Weather? = weatherService.findLast()
         model.addAttribute("weather", weather )
-        model.addAttribute("requestURI", request.requestURI);
+        model.addAttribute("requestURI", request.requestURI)
         return "index";
     }
 
