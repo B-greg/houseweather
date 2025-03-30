@@ -1,6 +1,5 @@
 package com.gregb.houseweather.model
 
-import com.fasterxml.jackson.annotation.JsonFormat
 import com.thanglequoc.aqicalculator.AQICalculator
 import com.thanglequoc.aqicalculator.AQIResult
 import com.thanglequoc.aqicalculator.Pollutant

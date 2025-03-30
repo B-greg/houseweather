@@ -3,8 +3,6 @@ package com.gregb.houseweather.service
 import com.gregb.houseweather.model.Weather
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.*
 
 interface WeatherService {

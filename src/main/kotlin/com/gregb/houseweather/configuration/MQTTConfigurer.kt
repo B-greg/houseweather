@@ -1,6 +1,10 @@
 package com.gregb.houseweather.configuration
 
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.gregb.houseweather.controller.MoistureController
+import com.gregb.houseweather.restModel.MQTTBody
+import com.gregb.houseweather.restModel.MoistureBody
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -27,12 +31,12 @@ class MQTTConfigurer {
     fun inbound(): MessageProducer {
         val adapter =
             MqttPahoMessageDrivenChannelAdapter(
-                "tcp://localhost:1883", "testClient",
-                "topic1", "topic2"
+                "tcp://localhost:1883", "local",
+                "moistSensorTopic"
             )
         adapter.setCompletionTimeout(5000)
         adapter.setConverter(DefaultPahoMessageConverter())
-        adapter.setQos(1)
+        adapter.setQos(2)
         adapter.outputChannel = mqttInputChannel()
         return adapter
     }
@@ -42,14 +46,36 @@ class MQTTConfigurer {
     fun handler(): MessageHandler {
         return MessageHandler { message ->
             val topic = message.headers["mqtt_receivedTopic"]
-            if (topic?.equals("topic1") == true){
-                if (message.payload is String){
-                    moistureController.receiveMessage(message.payload.toString())
-                } else {
-                    throw Exception("Payload from wrong type")
+            val mapper = jacksonObjectMapper()
+            if (topic?.equals("moistSensorTopic") == true){
+                when (val payload = message.payload) {
+                    is String -> {
+                        val request: MQTTBody<MoistureBody> = mapper.readValue(payload, object : TypeReference<MQTTBody<MoistureBody>>() {})
+                        moistureController.receiveMessage(request.data)
+                    }
+                    else -> throw IllegalArgumentException("Payload is of wrong type: ${payload.javaClass.name}")
                 }
             }
         }
     }
+
+
+//    @Bean
+//    @ServiceActivator(inputChannel = "mqttInputChannel")
+//    fun handler(): MessageHandler {
+//        return MessageHandler { message ->
+//            val topic = message.headers["mqtt_receivedTopic"]
+//            val mapper = jacksonObjectMapper()
+//            if (topic == "moistSensorTopic") {
+//                when (val payload = message.payload) {
+//                    is String -> {
+//                        val request: MQTTBody<MoistureBody> = mapper.readValue(payload)
+//                        moistureController.receiveMessage(request)
+//                    }
+//                    else -> throw IllegalArgumentException("Payload is of wrong type: ${payload.javaClass.name}")
+//                }
+//            }
+//        }
+//    }
 
 }
