@@ -2,13 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments/common.html :: headerfiles"></head>
 <head>
-    <link rel="stylesheet" type="text/css" href="css/weather_main.css"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/weather_main.css" />
 </head>
 <body>
 <div th:insert="fragments/common.html :: headerbar"></div>
 <div class="container">
     <div class="row" th:if="${lastMoisture != null }">
-        <div class="col-sm-12 col-md-3">
+        <div class="col-sm-12">
             <div>
                 <p>
                     <span th:text="#{soil.updated-on}"/>
@@ -38,6 +39,11 @@
                 </div>
             </div>
         </div>
+        <div id="chartMoisture"></div>
+        <div id="chartTemperature"></div>
+        <div id="chartHumidity"></div>
+
+
     </div>
     <form th:action="@{/soil}"
           method="get"
@@ -99,5 +105,118 @@
     </div>
 </div>
 <div th:replace="fragments/common.html :: includeJs"></div>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script th:inline="javascript">
+    var moistureGaugeValue = [[${lastMoisture.moisture}]]
+    var temperatureGaugeValue = [[${lastMoisture.temperature}]]
+    var humidityGaugeValue = [[${lastMoisture.humidity}]]
+
+    var optionsMoisture = {
+      chart: {
+        type: "radialBar",
+      },
+      series: [moistureGaugeValue/2.55],
+      colors: ["#1565C0"],
+      plotOptions: {
+        radialBar: {
+          startAngle: -135,
+          endAngle: 135,
+          track: {
+            background: '#888',
+            startAngle: -135,
+            endAngle: 135,
+          },
+          dataLabels: {
+            name: {
+              show: true,
+            },
+            value: {
+              fontSize: "30px",
+              show: true,
+              formatter: function (val) {
+                return moistureGaugeValue
+              }
+            }
+          }
+        }
+      },
+      stroke: {
+        lineCap: "round"
+      },
+      labels: ["Moisture"]
+    };
+
+    var optionsTemperature = {
+      chart: {
+        type: "radialBar",
+      },
+      series: [temperatureGaugeValue * 2],
+      colors: ["#1565C0"],
+      plotOptions: {
+        radialBar: {
+          startAngle: -135,
+          endAngle: 135,
+          track: {
+            background: '#888',
+            startAngle: -135,
+            endAngle: 135,
+          },
+          dataLabels: {
+            name: {
+              show: true,
+            },
+            value: {
+              fontSize: "30px",
+              show: true,
+              formatter: function (val) {
+                return temperatureGaugeValue + '°C'
+              }
+            }
+          }
+        }
+      },
+      stroke: {
+        lineCap: "round"
+      },
+      labels: ["Temperature"]
+    };
+
+    var optionsHumidity = {
+      chart: {
+        type: "radialBar",
+      },
+      series: [humidityGaugeValue],
+      colors: ["#1565C0"],
+      plotOptions: {
+        radialBar: {
+          startAngle: -135,
+          endAngle: 135,
+          track: {
+            background: '#888',
+            startAngle: -135,
+            endAngle: 135,
+          },
+          dataLabels: {
+            name: {
+              show: true,
+            },
+            value: {
+              fontSize: "30px",
+              show: true
+            }
+          }
+        }
+      },
+      stroke: {
+        lineCap: "round"
+      },
+      labels: ["Humidity"]
+    };
+
+    new ApexCharts(document.querySelector("#chartMoisture"), optionsMoisture).render();
+    new ApexCharts(document.querySelector("#chartTemperature"), optionsTemperature).render();
+    new ApexCharts(document.querySelector("#chartHumidity"), optionsHumidity).render();
+
+</script>
 </body>
 </html>

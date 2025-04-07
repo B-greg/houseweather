@@ -8,6 +8,7 @@ import com.gregb.houseweather.service.MoistureService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -29,7 +30,7 @@ class MoistureController {
     }
 
     @GetMapping("/soil")
-    fun weatherMain(model: Model, @PageableDefault(size=10, page=0) pageable: Pageable): String {
+    fun weatherMain(model: Model, @PageableDefault(size=10, page=0, direction = Sort.Direction.DESC, sort = ["id"] ) pageable: Pageable): String {
         val pageableMoisture: Page<Moisture> = moistureService.findAll(pageable)
         var lastMoisture: Moisture? = moistureService.findLast()
         model.addAttribute("pageableMoisture", pageableMoisture )

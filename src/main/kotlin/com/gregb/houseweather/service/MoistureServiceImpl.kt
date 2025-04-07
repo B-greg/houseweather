@@ -1,11 +1,11 @@
 package com.gregb.houseweather.service
 
 import com.gregb.houseweather.model.Moisture
-import com.gregb.houseweather.model.Weather
 import com.gregb.houseweather.repository.MoistureRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 
 @Service
