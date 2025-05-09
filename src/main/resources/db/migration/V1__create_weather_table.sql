@@ -1,6 +1,6 @@
 CREATE TABLE weather(
-    id SERIAL PRIMARY KEY ,
-    temperature  float,
-    humidity float,
-    dateTime  timestamp NOT NULL DEFAULT NOW()
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    temperature REAL,
+    humidity REAL,
+    dateTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

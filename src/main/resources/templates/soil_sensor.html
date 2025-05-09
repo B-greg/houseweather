@@ -107,6 +107,7 @@
 <div th:replace="fragments/common.html :: includeJs"></div>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script th:inline="javascript">
+    if([[${lastMoisture}]] === null) return;
     var moistureGaugeValue = [[${lastMoisture.moisture}]]
     var temperatureGaugeValue = [[${lastMoisture.temperature}]]
     var humidityGaugeValue = [[${lastMoisture.humidity}]]

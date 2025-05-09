@@ -25,7 +25,7 @@ class Weather {
     var pm10: String? = null
 
     @CreationTimestamp
-    @Column(name = "CreatedDate", updatable=false)
+    @Column(name = "created_date", updatable=false)
     var createdDate: Date? = null
 
     fun getAQI(): AQIResult {

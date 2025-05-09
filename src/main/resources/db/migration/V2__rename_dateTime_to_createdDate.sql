@@ -1,1 +1,1 @@
-ALTER TABLE weather RENAME COLUMN dateTime TO CreatedDate;
+ALTER TABLE weather RENAME COLUMN dateTime TO created_date;

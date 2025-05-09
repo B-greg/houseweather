@@ -1,3 +1,2 @@
-ALTER TABLE weather
-ADD pm25 varchar(10),
-ADD pm10 varchar(10);
+ALTER TABLE weather ADD COLUMN pm25 VARCHAR(10);
+ALTER TABLE weather ADD COLUMN pm10 VARCHAR(10);

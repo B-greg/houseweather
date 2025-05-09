@@ -22,7 +22,7 @@ class Moisture {
     var moisture: Float? = null
 
     @CreationTimestamp
-    @Column(name = "CreatedDate", updatable=false)
+    @Column(name = "created_date", updatable=false)
     var createdDate: Date? = null
 
 }
