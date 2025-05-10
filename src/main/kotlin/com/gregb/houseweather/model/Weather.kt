@@ -12,8 +12,8 @@ import java.util.*
 class Weather {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "weather_generator")
-    @SequenceGenerator(name="weather_generator", sequenceName = "weather_id_seq", allocationSize=1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "weather_generator")
+//    @SequenceGenerator(name="weather_generator", sequenceName = "weather_id_seq", allocationSize=1)
     val id: Long = 0
 
     var temperature: Float? = null

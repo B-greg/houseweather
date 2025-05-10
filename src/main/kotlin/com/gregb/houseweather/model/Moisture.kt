@@ -11,8 +11,8 @@ class Moisture {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "moisture_generator")
-    @SequenceGenerator(name="moisture_generator", sequenceName = "moisture_id_seq", allocationSize=1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "moisture_generator")
+//    @SequenceGenerator(name="moisture_generator", sequenceName = "moisture_id_seq", allocationSize=1)
     val id: Long = 0
 
     var temperature: Float? = null
