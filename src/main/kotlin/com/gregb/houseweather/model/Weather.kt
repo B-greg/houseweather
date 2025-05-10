@@ -14,6 +14,10 @@ class Weather {
     @Column(name = "id", updatable = false, nullable = false)
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "weather_generator")
 //    @SequenceGenerator(name="weather_generator", sequenceName = "weather_id_seq", allocationSize=1)
+    @GeneratedValue(generator="sqlite")
+    @TableGenerator(name="sqlite", table="sqlite_sequence",
+        pkColumnName="name", valueColumnName="seq",
+        pkColumnValue="sqliteTestTable")
     val id: Long = 0
 
     var temperature: Float? = null

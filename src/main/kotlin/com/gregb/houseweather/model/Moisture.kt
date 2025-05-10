@@ -13,6 +13,10 @@ class Moisture {
     @Column(name = "id", updatable = false, nullable = false)
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "moisture_generator")
 //    @SequenceGenerator(name="moisture_generator", sequenceName = "moisture_id_seq", allocationSize=1)
+    @GeneratedValue(generator="sqlite")
+    @TableGenerator(name="sqlite", table="sqlite_sequence",
+        pkColumnName="name", valueColumnName="seq",
+        pkColumnValue="sqliteTestTable")
     val id: Long = 0
 
     var temperature: Float? = null
